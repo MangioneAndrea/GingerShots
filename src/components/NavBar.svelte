@@ -29,7 +29,7 @@
 </script>
 
 <AppBar dense>
-  <span slot="title">Gin-ger shots</span>
+  <span slot="title">Ginger shots</span>
   <div style="flex-grow:1" />
   <div class="tabs">
     <Tabs centered fixedTabs on:change={changePage}>
