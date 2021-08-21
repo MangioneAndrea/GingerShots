@@ -1,5 +1,13 @@
 <script>
-  import { Button, Icon, AppBar, Divider, Tabs, Tab } from "svelte-materialify";
+  import {
+    Button,
+    Icon,
+    AppBar,
+    Divider,
+    Tabs,
+    Tab,
+    Menu,
+  } from "svelte-materialify";
   import {
     mdiThemeLightDark,
     mdiViewDashboard,
@@ -9,9 +17,12 @@
   import Home from "../routes/Home.svelte";
   import List from "../routes/List.svelte";
   import Reviews from "../routes/Reviews.svelte";
+  import { user, logout } from "../services/firebase";
 
   export let page;
   export let theme;
+  export let loggingIn;
+  export let dialogOpts;
 
   const tabs = [
     { icon: mdiViewDashboard, link: Home },
@@ -25,6 +36,18 @@
 
   const changePage = (evt) => {
     page = tabs[evt.detail]?.link || "home";
+  };
+  const login = () => {
+    loggingIn = true;
+  };
+
+  const openLogout = () => {
+    dialogOpts = {
+      open: true,
+      yes: logout,
+      title: "Logout",
+      text: "Do you really want to logout?",
+    };
   };
 </script>
 
@@ -42,9 +65,19 @@
   </div>
   <Divider vertical />
   <div class="staticButtons">
-    <Button class="topBarRightButtons" depressed on:click={switchTheme}
-      >Login</Button
-    >
+    <Menu closeOnClick={false}>
+      <div slot="activator">
+        {#if !!$user}
+          <Button class="topBarRightButtons" depressed on:click={openLogout}>
+            Logout
+          </Button>
+        {:else}
+          <Button class="topBarRightButtons" depressed on:click={login}>
+            Login
+          </Button>
+        {/if}
+      </div>
+    </Menu>
     <Button class="topBarRightButtons" icon on:click={switchTheme}>
       <Icon path={mdiThemeLightDark} />
     </Button>
