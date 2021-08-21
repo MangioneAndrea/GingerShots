@@ -12,7 +12,7 @@
     import { magicLogin } from "../services/firebase";
     export let open = false;
     export let jwt = "";
-    export let email = "uremiarm@gmail.com";
+    export let email = "";
     const loginAndClose = async () => {
         magicLogin(email);
         open = false;
