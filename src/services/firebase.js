@@ -10,7 +10,7 @@ firebase.initializeApp({
     appId: "1:20571660088:web:b58c50e65eca0eb91fabcd",
     measurementId: "G-DD8T83V5KG"
 })
-if (true) {
+if (false) {
     firebase.auth().useEmulator("http://localhost:9099");
 }
 var actionCodeSettings = {
