@@ -11,26 +11,23 @@
   import {
     mdiThemeLightDark,
     mdiViewDashboard,
-    mdiStar,
     mdiClipboardList,
     mdiAccount,
   } from "@mdi/js";
   import Home from "../routes/Home.svelte";
   import List from "../routes/List.svelte";
-  import Reviews from "../routes/Reviews.svelte";
   import { user, logout } from "../services/firebase";
-  import Account from "./Account.svelte";
+  import Account from "../routes/Account.svelte";
 
   export let page;
   export let theme;
   export let loggingIn;
   export let dialogOpts;
 
-  const tabs = [
+  $: tabs = [
     { icon: mdiViewDashboard, link: Home },
     { icon: mdiClipboardList, link: List },
-    { icon: mdiStar, link: Reviews },
-    { icon: mdiAccount, link: Account },
+    { icon: mdiAccount, link: Account, disabled: !$user },
   ];
 
   const switchTheme = () => {
@@ -61,7 +58,7 @@
     <Tabs centered fixedTabs on:change={changePage}>
       <div slot="tabs">
         {#each tabs as tab}
-          <Tab><Icon path={tab.icon} /></Tab>
+          <Tab disabled={tab.disabled}><Icon path={tab.icon} /></Tab>
         {/each}
       </div>
     </Tabs>

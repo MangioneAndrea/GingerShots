@@ -21,7 +21,9 @@
 <MaterialAppMin {theme}>
 	<NavBar bind:page bind:theme bind:loggingIn bind:dialogOpts />
 	<Login bind:open={loggingIn} />
-	<ConfirmDialog {...dialogOpts} />
+	{#if dialogOpts.open}
+		<ConfirmDialog {...dialogOpts} />
+	{/if}
 	<svelte:component this={page} />
 </MaterialAppMin>
 

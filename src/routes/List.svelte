@@ -58,7 +58,9 @@
             {/each}
         </DataTableBody>
     </DataTable>
-    <Review {open} />
+    {#if open}
+        <Review {open} />
+    {/if}
 </div>
 
 <style type="text/scss">
