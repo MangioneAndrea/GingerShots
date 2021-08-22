@@ -13,11 +13,13 @@
     mdiViewDashboard,
     mdiStar,
     mdiClipboardList,
+    mdiAccount,
   } from "@mdi/js";
   import Home from "../routes/Home.svelte";
   import List from "../routes/List.svelte";
   import Reviews from "../routes/Reviews.svelte";
   import { user, logout } from "../services/firebase";
+  import Account from "./Account.svelte";
 
   export let page;
   export let theme;
@@ -28,6 +30,7 @@
     { icon: mdiViewDashboard, link: Home },
     { icon: mdiClipboardList, link: List },
     { icon: mdiStar, link: Reviews },
+    { icon: mdiAccount, link: Account },
   ];
 
   const switchTheme = () => {
