@@ -1,5 +1,5 @@
 <script>
-	import "@firebase/auth";
+	import "firebase/auth";
 
 	import { MaterialAppMin } from "svelte-materialify";
 	import Login from "./components/Login.svelte";

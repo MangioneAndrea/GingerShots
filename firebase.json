@@ -10,8 +10,8 @@
       "**/node_modules/**"
     ]
   },
-  "functions": {
-    "source": "functions"
+  "firestore": {
+    "rules": "firestore.rules"
   },
   "emulators": {
     "auth": {
@@ -28,6 +28,9 @@
     },
     "ui": {
       "enabled": true
+    },
+    "firestore": {
+      "port": 8080
     }
   }
 }

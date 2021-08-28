@@ -8,7 +8,18 @@
         Row,
         TextField,
     } from "svelte-materialify";
-    import { user } from "../services/firebase";
+    import { user } from "../services/firebase-auth";
+    import { updateUser, currentUser } from "../services/firebase-firestore";
+
+    let nickname;
+
+    currentUser().then((user) => {
+        nickname = user.nickname;
+    });
+
+    const changeNick = ({ target }) => {
+        updateUser({ nickname });
+    };
 </script>
 
 <div class="container">
@@ -28,7 +39,11 @@
                     <div class="text-overline">nickname</div>
                 </Col>
                 <Col>
-                    <TextField placeholder="Nick" />
+                    <TextField
+                        placeholder="Nick"
+                        bind:value={nickname}
+                        on:change={changeNick}
+                    />
                 </Col>
             </Row>
             <Row class="centered">

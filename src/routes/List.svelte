@@ -20,10 +20,10 @@
 
     const reviews = [
         {
-            author: "Andrea",
-            date: new Intl.DateTimeFormat("ch").format(new Date()),
-            ingredients: ["Ginger", "Honey"],
-            rating: 3.5,
+            Maker: "Andrea",
+            Date: new Intl.DateTimeFormat("ch").format(new Date()),
+            Ingredients: ["Ginger", "Honey"],
+            Ratings: [4,3],
         },
     ];
 </script>
@@ -41,13 +41,13 @@
         <DataTableBody>
             {#each reviews as review}
                 <DataTableRow>
-                    <DataTableCell>{review.date}</DataTableCell>
-                    <DataTableCell>{review.author}</DataTableCell>
+                    <DataTableCell>{review.Date}</DataTableCell>
+                    <DataTableCell>{review.Maker}</DataTableCell>
                     <DataTableCell
-                        >{review.ingredients.join(" ,")}</DataTableCell
+                        >{review.Ingredients.join(", ")}</DataTableCell
                     >
                     <DataTableCell>
-                        <Stars rating={review.rating} />
+                        <Stars rating={review.Ratings.average()} />
                     </DataTableCell>
                     <DataTableCell>
                         <Button icon on:click={openReview}>

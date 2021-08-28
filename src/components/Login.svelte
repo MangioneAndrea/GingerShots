@@ -9,7 +9,7 @@
         Dialog,
         TextField,
     } from "svelte-materialify";
-    import { magicLogin } from "../services/firebase";
+    import { magicLogin } from "../services/firebase-auth";
     export let open = false;
     export let email = "";
     const loginAndClose = async () => {

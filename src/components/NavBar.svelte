@@ -16,7 +16,7 @@
   } from "@mdi/js";
   import Home from "../routes/Home.svelte";
   import List from "../routes/List.svelte";
-  import { user, logout } from "../services/firebase";
+  import { user, logout } from "../services/firebase-auth";
   import Account from "../routes/Account.svelte";
 
   export let page;

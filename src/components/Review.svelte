@@ -8,7 +8,7 @@
         Dialog,
         Textarea,
     } from "svelte-materialify";
-    import { user } from "../services/firebase";
+    import { user } from "../services/firebase-auth";
     import Stars from "../templates/Stars.svelte";
     export let open = false;
     export let description = "";
@@ -17,7 +17,7 @@
 
     const isUserAuthor = author && $user?.getEmail() === author;
     const saveAndClose = async () => {
-        close();
+        new Rating(description, rating).submit().then(close);
     };
     const close = async () => {
         open = false;
