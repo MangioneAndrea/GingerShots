@@ -8,7 +8,6 @@ import {
   signInWithEmailLink,
 } from "firebase/auth";
 import { readable } from "svelte/store";
-import { updateUser } from "./firebase-firestore";
 
 const auth = getAuth(app);
 if (location.hostname === "localhost") {
@@ -31,7 +30,6 @@ if (isSignInWithEmailLink(auth, window.location.href)) {
       .then(() => {
         window.localStorage.removeItem("emailForSignIn");
         auth.setPersistence(browserLocalPersistence);
-        updateUser().then((user) => (window.user = user));
       })
       .catch((error) => {
         console.error(error);

@@ -18,17 +18,20 @@ const db = getFirestore(app);
 if (location.hostname === "localhost") {
   connectFirestoreEmulator(db, "localhost", 8080);
 }
-const user = () => doc(db, "users", auth.currentUser.email);
-export const updateUser = async (n = {}) => {
-  await setDoc(user(), n, { merge: true });
+const user = () => doc(db, "users", auth.currentUser.uid);
+export const updateUser = async (data = {}) => {
+  await setDoc(user(), data, { merge: true });
 };
 export const getUser = async () => {
-  return (await getDoc(user(), auth.currentUser.email)).data();
+  return (await getDoc(user(), auth.currentUser.uid)).data();
 };
 
 export const getShots = async () => {
   const shots = await getDocs(query(collection(db, "shots")));
   const res = shots.docs.map((doc) => doc.data());
+  if (res.length === 0) {
+    return [];
+  }
   const users = await getDocs(
     query(
       collection(db, "users"),
@@ -36,12 +39,14 @@ export const getShots = async () => {
     )
   );
   const usersMap = users.docs.reduce(
-    (acc, el) => ({ ...acc, [el.id]: el.data().nickname }),
+    (acc, el) => ({ ...acc, [el.id]: el.data() }),
     {}
   );
+  window.users = usersMap;
+  window.shots = res;
   return res.map((r) => ({
     ...r,
-    author: usersMap[r.author],
+    author: usersMap[r.author].nickname,
   }));
 };
 
@@ -49,7 +54,7 @@ export const addShot = async (date, ingredients = []) => {
   return addDoc(collection(db, "shots"), {
     date: date.stringFormat(),
     ingredients,
-    author: auth.currentUser.email,
+    author: auth.currentUser.uid,
     creationDate: new Date().stringFormat(),
   });
 };
