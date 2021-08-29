@@ -11,6 +11,7 @@
   import { mdiBookSearchOutline } from "@mdi/js";
   import Review from "../components/Review.svelte";
   import Stars from "../templates/Stars.svelte";
+  import { getShots } from "../services/firebase-firestore";
 
   let open = false;
 
@@ -18,14 +19,11 @@
     open = true;
   };
 
-  const reviews = [
-    {
-      Maker: "Andrea",
-      Date: new Intl.DateTimeFormat("ch").format(new Date()),
-      Ingredients: ["Ginger", "Honey"],
-      Ratings: [4, 3],
-    },
-  ];
+  let reviews = [];
+
+  getShots().then((result) => {
+    reviews = result;
+  });
 </script>
 
 <div class="container">
@@ -41,11 +39,11 @@
     <DataTableBody>
       {#each reviews as review}
         <DataTableRow>
-          <DataTableCell>{review.Date}</DataTableCell>
-          <DataTableCell>{review.Maker}</DataTableCell>
-          <DataTableCell>{review.Ingredients.join(", ")}</DataTableCell>
+          <DataTableCell>{review.date}</DataTableCell>
+          <DataTableCell>{review.author}</DataTableCell>
+          <DataTableCell>{review.ingredients?.join(", ")}</DataTableCell>
           <DataTableCell>
-            <Stars rating={review.Ratings.average()} />
+            <Stars rating={review.ratings?.average()} />
           </DataTableCell>
           <DataTableCell>
             <Button icon on:click={openReview}>

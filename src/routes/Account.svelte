@@ -9,15 +9,15 @@
     TextField,
   } from "svelte-materialify";
   import { user } from "../services/firebase-auth";
-  import { updateUser, currentUser } from "../services/firebase-firestore";
+  import { updateUser, getUser } from "../services/firebase-firestore";
 
   let nickname;
 
-  currentUser().then((user) => {
+  getUser().then((user) => {
     nickname = user.nickname;
   });
 
-  const changeNick = ({ target }) => {
+  const changeNick = () => {
     updateUser({ nickname });
   };
 </script>

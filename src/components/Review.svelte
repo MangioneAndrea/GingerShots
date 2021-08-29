@@ -22,6 +22,7 @@
   const close = async () => {
     open = false;
   };
+  
 </script>
 
 <Dialog bind:active={open}>
