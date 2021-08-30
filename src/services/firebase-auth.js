@@ -8,6 +8,7 @@ import {
   signInWithEmailLink,
 } from "firebase/auth";
 import { readable } from "svelte/store";
+import { pushSnacks } from "./snackbar";
 
 const auth = getAuth(app);
 if (location.hostname === "localhost") {
@@ -21,18 +22,19 @@ var actionCodeSettings = {
 if (isSignInWithEmailLink(auth, window.location.href)) {
   var email = window.localStorage.getItem("emailForSignIn");
   if (!email) {
-    console.error(
-      "You have to use the same browser as you used for the request"
-    );
+    pushSnacks("You have to use the same browser as you used for the request");
   } else {
+    console.log("not calling this");
     // The client SDK will parse the code from the link for you.
     signInWithEmailLink(auth, email, window.location.href)
       .then(() => {
         window.localStorage.removeItem("emailForSignIn");
         auth.setPersistence(browserLocalPersistence);
+        window.history.pushState("", "", "/");
+        pushSnacks("Successfully logged in!");
       })
       .catch((error) => {
-        console.error(error);
+        pushSnacks(error.message);
       });
   }
 }

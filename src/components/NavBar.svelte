@@ -35,7 +35,7 @@
   };
 
   const changePage = (evt) => {
-    page = tabs[evt.detail]?.link || "home";
+    page = tabs[evt.detail]?.link || Home;
   };
   const login = () => {
     loggingIn = true;

@@ -2,8 +2,10 @@
   import "firebase/auth";
 
   import { MaterialAppMin } from "svelte-materialify";
+
   import Login from "./components/Login.svelte";
   import NavBar from "./components/NavBar.svelte";
+  import Snackbars from "./components/Snackbars.svelte";
   import Home from "./routes/Home.svelte";
   import ConfirmDialog from "./templates/ConfirmDialog.svelte";
 
@@ -24,6 +26,7 @@
   {#if dialogOpts.open}
     <ConfirmDialog {...dialogOpts} />
   {/if}
+  <Snackbars />
   <svelte:component this={page} />
 </MaterialAppMin>
 

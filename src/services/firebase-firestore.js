@@ -21,6 +21,7 @@ if (location.hostname === "localhost") {
 const user = () => doc(db, "users", auth.currentUser.uid);
 export const updateUser = async (data = {}) => {
   await setDoc(user(), data, { merge: true });
+  pushSnacks("User updated!");
 };
 export const getUser = async () => {
   return (await getDoc(user(), auth.currentUser.uid)).data();
@@ -51,10 +52,11 @@ export const getShots = async () => {
 };
 
 export const addShot = async (date, ingredients = []) => {
-  return addDoc(collection(db, "shots"), {
+  await addDoc(collection(db, "shots"), {
     date: date.stringFormat(),
     ingredients,
     author: auth.currentUser.uid,
     creationDate: new Date().stringFormat(),
   });
+  pushSnacks("New ginger-shot created!");
 };

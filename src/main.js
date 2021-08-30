@@ -15,5 +15,4 @@ Array.prototype.unique = function () {
 Date.prototype.stringFormat = function () {
   return new Intl.DateTimeFormat("ch").format(this);
 };
-
 export default app;

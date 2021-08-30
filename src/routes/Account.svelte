@@ -47,7 +47,7 @@
         </Col>
       </Row>
       <Row class="centered">
-        <Button class="red white-text">Delete account</Button>
+        <!--<Button class="red white-text">Delete account</Button>-->
       </Row>
     </CardText>
   </Card>
