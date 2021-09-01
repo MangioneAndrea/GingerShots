@@ -72,10 +72,6 @@
         padding-left: 16px;
         padding-right: 16px;
         text-align: center;
-
-        &.numeric {
-          text-align: right;
-        }
       }
 
       th {

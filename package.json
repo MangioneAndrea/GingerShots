@@ -23,12 +23,6 @@
   },
   "dependencies": {
     "@mdi/js": "^5.9.55",
-    "firebase": "^9.0.0",
-    "gridjs": "^5.0.2",
-    "gridjs-svelte": "^1.2.0",
-    "input-core": "^2.0.1",
-    "svelte-calendar": "^2.0.4",
-    "svelte-input-mask": "^1.1.0",
     "svelte-materialify": "^0.3.11"
   }
 }
