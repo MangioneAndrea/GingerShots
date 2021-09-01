@@ -62,6 +62,13 @@
 
     :global(.card) {
       width: 50%;
+      @media only screen and (max-width: 768px) {
+        width: calc(100% - 16px);
+        margin: 8px;
+        :global(.s-col) {
+          flex-basis: unset;
+        }
+      }
       margin: auto;
       :global(.centered) {
         justify-content: center;

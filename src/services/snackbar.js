@@ -8,7 +8,6 @@ export const pushSnacks = (message, duration = 3000) => {
     duration,
     eta: Date.now(),
     close: function () {
-      console.log(this);
       snacks.update((arr) => arr.filter((el) => el != this));
     },
   };

@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { readable } from "svelte/store";
 import { pushSnacks } from "./snackbar";
+import { updateUser } from "./firebase-firestore";
 
 const auth = getAuth(app);
 if (location.hostname === "localhost") {
@@ -31,6 +32,7 @@ if (isSignInWithEmailLink(auth, window.location.href)) {
         window.localStorage.removeItem("emailForSignIn");
         auth.setPersistence(browserLocalPersistence);
         window.history.pushState("", "", "/");
+        updateUser();
         pushSnacks("Successfully logged in!");
       })
       .catch((error) => {

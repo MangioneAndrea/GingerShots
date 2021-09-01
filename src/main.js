@@ -13,6 +13,7 @@ Array.prototype.unique = function () {
 };
 
 Date.prototype.stringFormat = function () {
-  return new Intl.DateTimeFormat("ch").format(this);
+  if (isNaN(this.getTime())) return NaN;
+  return new Intl.DateTimeFormat("de").format(this);
 };
 export default app;

@@ -53,7 +53,7 @@
 
 <AppBar dense>
   <span slot="title">Ginger shots</span>
-  <div style="flex-grow:1" />
+  <div class="separator" />
   <div class="tabs">
     <Tabs centered fixedTabs on:change={changePage}>
       <div slot="tabs">
@@ -87,11 +87,33 @@
 <style type="text/scss">
   .tabs {
     margin: auto;
+    @media only screen and (max-width: 768px) {
+      margin: 0;
+      flex:1;
+    }
   }
   .staticButtons {
     padding: 10px;
-    :global(.topBarRightButtons) {
+    @media only screen and (max-width: 768px) {
+      padding: 0;
+    }
+    :global(button.topBarRightButtons.size-default) {
       margin: auto;
+      @media only screen and (max-width: 768px) {
+        padding: 0 8px;
+      }
+    }
+  }
+  span {
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+  .separator {
+    flex-grow: 1;
+    @media only screen and (max-width: 768px) {
+      flex-grow: 0;
+      display: none;
     }
   }
 </style>
