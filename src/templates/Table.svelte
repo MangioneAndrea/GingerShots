@@ -49,6 +49,7 @@
     table {
       border-collapse: collapse;
       width: inherit;
+      flex: 1;
 
       thead {
         font-weight: 500;
