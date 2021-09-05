@@ -1,11 +1,11 @@
 <script>
-  import ShotDialog from "../components/ShotDialog.svelte";
-  import Stars from "../templates/Stars.svelte";
-  import { getShots } from "../services/firebase-firestore";
-  import "gridjs/dist/theme/mermaid.css";
-  import Table from "../templates/Table.svelte";
-  import { Button, Icon } from "svelte-materialify";
-  import { mdiPlus } from "@mdi/js";
+  import ShotDialog from '../components/ShotDialog.svelte';
+  import Stars from '../templates/Stars.svelte';
+  import { getShots } from '../models/shot';
+  import 'gridjs/dist/theme/mermaid.css';
+  import Table from '../templates/Table.svelte';
+  import { Button, Icon } from 'svelte-materialify';
+  import { mdiPlus } from '@mdi/js';
   let shot;
   let open = false;
 
@@ -25,20 +25,23 @@
   <Table
     data={shots}
     columns={[
-      { name: "Author", value: "author" },
+      { name: 'Author', value: 'author', sortable: true },
       {
-        name: "Date",
-        value: "date",
+        name: 'Date',
+        field: 'date',
+        sortable: true,
         formatter: (val) => new Date(val).stringFormat(),
       },
       {
-        name: "Ingredients",
-        value: "ingredients",
-        formatter: (arr) => arr.join(", "),
+        name: 'Ingredients',
+        field: 'ingredients',
+        sortable: true,
+        formatter: (arr) => arr.join(', '),
       },
       {
-        name: "Rating",
-        value: "rating",
+        name: 'Rating',
+        field: 'rating',
+        sortable: true,
         renderer: { component: Stars },
       },
     ]}

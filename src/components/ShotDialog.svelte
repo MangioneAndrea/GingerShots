@@ -7,15 +7,19 @@
     CardTitle,
     Dialog,
     Textarea,
-  } from "svelte-materialify";
-  import { user } from "../services/firebase-auth";
-  import { addShot, updateShot } from "../services/firebase-firestore";
+  } from 'svelte-materialify';
+  import { user } from '../services/firebase-auth';
+  import {
+    addShot,
+    deleteShot,
+    updateShot,
+  } from '../models/shot';
   export let shot;
   export let open;
   export let onSave;
 
-  let ingredients = shot?.ingredients?.join(", ") || "";
-  let date = shot.date && new Date(shot.date).toISOString().split("T")[0];
+  let ingredients = shot?.ingredients?.join(', ') || '';
+  let date = shot.date && new Date(shot.date).toISOString().split('T')[0];
 
   const isUserAuthor = shot?.authorId && $user?.uid === shot?.authorId;
   const isNew = !shot?.id;
@@ -23,18 +27,26 @@
   const saveAndClose = async () => {
     try {
       if (isNew) {
-        await addShot(date, ingredients.split(", "));
-        pushSnacks("New ginger-shot created!");
+        await addShot(date, ingredients.split(', '));
+        pushSnacks('New ginger-shot created!');
       } else {
         await updateShot({
           ...shot,
           date,
-          ingredients: ingredients.split(", "),
+          ingredients: ingredients.split(', '),
         });
-        pushSnacks("Ginger shot updated!");
+        pushSnacks('Ginger shot updated!');
       }
-      onSave?.()
+      onSave?.();
       close();
+    } catch (err) {
+      pushSnacks(err.message);
+    }
+  };
+  const deleteAndClose = async () => {
+    try {
+      await deleteShot(date, ingredients.split(', '));
+      pushSnacks('Gingershot succesfully deleted!');
     } catch (err) {
       pushSnacks(err.message);
     }
@@ -44,7 +56,7 @@
   };
 </script>
 
-<Dialog bind:active={open} style={{ position: "fixed" }}>
+<Dialog bind:active={open} style={{ position: 'fixed' }}>
   <Card raised>
     <CardTitle>
       <div class="title">
@@ -74,6 +86,9 @@
       {#if isNew || isUserAuthor}
         <Button text class="primary-text" on:click={saveAndClose}>
           Save entry
+        </Button>
+        <Button text class="primary-text" on:click={deleteAndClose}>
+          Delete entry
         </Button>
       {/if}
       <Button text class="primary-text" on:click={close}>Close</Button>

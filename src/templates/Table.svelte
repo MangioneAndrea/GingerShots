@@ -1,34 +1,75 @@
 <script>
+  import { Icon } from 'svelte-materialify';
+  import { mdiSortDescending, mdiSortAscending } from '@mdi/js';
+
   export let data;
   export let columns;
-  export let onRowClick;
+  export let onRowClick = () => {};
+
+  $: sortedData = [...data];
+
+  const sorted = { field: null, direction: 0 };
+
+  const sortBy = (key) => {
+    if (sorted.field === key) {
+      sorted.direction++;
+
+      switch (sorted.direction) {
+        case 0:
+          sortedData = [...data];
+          return;
+        case 2:
+          sorted.direction = -1;
+        case 1:
+        default:
+      }
+    } else {
+      sorted.field = key;
+      sorted.direction = 1;
+    }
+
+    sortedData = sortedData.sort((a, b) => {
+      if (a[key] > b[key]) return 1 * sorted.direction;
+      if (a[key] < b[key]) return -1 * sorted.direction;
+      return 0;
+    });
+  };
 </script>
 
 <div class="container table">
   <table>
     <thead>
       <tr>
-        {#each columns as { name }}
-          <th>{name}</th>
+        {#each columns as { name, sortable, field }}
+          <th on:click={sortable && (() => sortBy(field))}
+            >{name}
+            {#if sorted.field === field}
+              {#if sorted.direction === 1}
+                <Icon path={mdiSortAscending} />
+              {:else if sorted.direction === -1}
+                <Icon path={mdiSortDescending} />
+              {/if}
+            {/if}
+          </th>
         {/each}
       </tr>
     </thead>
     <tbody>
-      {#each data as d}
+      {#each sortedData as d}
         <tr on:click={() => onRowClick(d)}>
-          {#each columns as { value, renderer, name, formatter=(a)=>a }}
+          {#each columns as { field, renderer, name, formatter=(a)=>a }}
             {#if renderer}
               <td class="s-tbl-cell">
                 <svelte:component
                   this={renderer.component}
                   {...{
-                    [renderer.argName || value]: formatter(d[value]),
+                    [renderer.argName || field]: formatter(d[field]),
                   }}
                 />
               </td>
             {:else}
               <td class="s-tbl-cell">
-                {formatter(d[value || name]) || ""}
+                {formatter(d[field || name]) || ''}
               </td>
             {/if}
           {/each}
