@@ -31,6 +31,7 @@
         field: 'date',
         sortable: true,
         formatter: (val) => new Date(val).stringFormat(),
+        sortValueGetter: (val) => new Date(val).getTime(),
       },
       {
         name: 'Ingredients',

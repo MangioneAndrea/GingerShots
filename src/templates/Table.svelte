@@ -28,9 +28,18 @@
       sorted.direction = 1;
     }
 
+    const col = columns.find((el) => el.field === key);
+
     sortedData = sortedData.sort((a, b) => {
-      if (a[key] > b[key]) return 1 * sorted.direction;
-      if (a[key] < b[key]) return -1 * sorted.direction;
+      if (col.sortValueGetter) {
+        if (col.sortValueGetter(a[key]) > col.sortValueGetter(b[key]))
+          return 1 * sorted.direction;
+        if (col.sortValueGetter(a[key]) < col.sortValueGetter(b[key]))
+          return -1 * sorted.direction;
+      } else {
+        if (a[key] > b[key]) return 1 * sorted.direction;
+        if (a[key] < b[key]) return -1 * sorted.direction;
+      }
       return 0;
     });
   };
