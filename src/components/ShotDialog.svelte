@@ -9,11 +9,7 @@
     Textarea,
   } from 'svelte-materialify';
   import { user } from '../services/firebase-auth';
-  import {
-    addShot,
-    deleteShot,
-    updateShot,
-  } from '../models/shot';
+  import { addShot, deleteShot, updateShot } from '../models/shot';
   export let shot;
   export let open;
   export let onSave;
@@ -87,6 +83,8 @@
         <Button text class="primary-text" on:click={saveAndClose}>
           Save entry
         </Button>
+      {/if}
+      {#if !isNew && isUserAuthor}
         <Button text class="primary-text" on:click={deleteAndClose}>
           Delete entry
         </Button>

@@ -6,6 +6,10 @@ service cloud.firestore {
       allow read;
     }
     match /shots/{shotId}{
+      match /reviews/{reviewId}{
+        allow read;
+        allow create;
+      }
       allow read;
       allow create: if request.auth != null && request.auth.uid == request.resource.data.author;
       allow update: if request.auth != null && request.auth.uid == resource.data.author;
