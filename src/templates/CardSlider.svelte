@@ -2,10 +2,10 @@
   import { mdiSkipNext, mdiSkipPrevious } from '@mdi/js';
   import { Card, Button, Icon } from 'svelte-materialify';
   import { slide } from 'svelte/transition';
+  export let template;
+  export let cards = ['first', 'second', 'third', 'fourth', 'fifth'];
 
   let focussedCard = 0;
-
-  export let cards = ['first', 'second', 'third', 'fourth', 'fifth'];
 </script>
 
 <div class="container">
@@ -20,11 +20,13 @@
     <div>
       {#if cards[focussedCard - 1]}
         <Card>
-          {cards[focussedCard]}
+          <svelte:component this={template} {...cards[focussedCard - 1]} />
         </Card>
       {/if}
       <Button
         icon
+        depressed
+        disabled={focussedCard <= 0}
         on:click={() => {
           focussedCard--;
         }}
@@ -43,7 +45,7 @@
   >
     <div>
       <Card>
-        {cards[focussedCard] || ''}
+        <svelte:component this={template} {...cards[focussedCard]} />
       </Card>
     </div>
   </div>
@@ -58,12 +60,13 @@
     <div>
       {#if cards[focussedCard + 1]}
         <Card>
-          {cards[focussedCard + 1]}
+          <svelte:component this={template} {...cards[focussedCard + 1]} />
         </Card>
       {/if}
 
       <Button
         icon
+        disabled={focussedCard >= cards.length}
         on:click={() => {
           focussedCard++;
         }}
@@ -89,7 +92,7 @@
         top: 50%;
         transform: translateY(-50%);
         opacity: 0.7;
-        &::hover {
+        &:hover {
           opacity: 1;
         }
       }
