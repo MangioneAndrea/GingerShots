@@ -1,6 +1,6 @@
 <script>
-  import { Icon } from 'svelte-materialify';
-  import { mdiSortDescending, mdiSortAscending } from '@mdi/js';
+  import { Icon } from "svelte-materialify";
+  import { mdiSortDescending, mdiSortAscending } from "@mdi/js";
 
   export let data;
   export let columns;
@@ -78,7 +78,7 @@
               </td>
             {:else}
               <td class="s-tbl-cell">
-                {formatter(d[field || name]) || ''}
+                {formatter(d[field || name]) || ""}
               </td>
             {/if}
           {/each}

@@ -8,19 +8,22 @@ import {
   where,
   documentId,
   deleteDoc,
-} from 'firebase/firestore';
-import { db, validateFields } from '../services/firebase-firestore';
+} from "firebase/firestore";
+import { db, validateFields } from "../services/firebase-firestore";
+import { getAuth } from "firebase/auth";
+
+const auth = getAuth(app);
 
 export const getShots = async () => {
-  const shots = await getDocs(query(collection(db, 'shots')));
+  const shots = await getDocs(query(collection(db, "shots")));
   const res = shots.docs.map((d) => ({ ...d.data(), id: d.id }));
   if (res.length === 0) {
     return [];
   }
   const users = await getDocs(
     query(
-      collection(db, 'users'),
-      where(documentId(), 'in', res.map((r) => r.author).unique())
+      collection(db, "users"),
+      where(documentId(), "in", res.map((r) => r.author).unique())
     )
   );
   const usersMap = users.docs.reduce(
@@ -29,15 +32,15 @@ export const getShots = async () => {
   );
   return res.map((r) => ({
     ...r,
-    date: console.log(r) || r.date?.toDate(),
+    date: r.date?.toDate(),
     authorId: r.author,
     author: usersMap[r.author]?.nickname || r.author,
   }));
 };
 
 export const addShot = async (date, ingredients = []) => {
-  validateFields({ date }, 'date');
-  return addDoc(collection(db, 'shots'), {
+  validateFields({ date }, "date");
+  return addDoc(collection(db, "shots"), {
     date: new Date(date),
     ingredients,
     author: auth.currentUser.uid,
@@ -46,8 +49,8 @@ export const addShot = async (date, ingredients = []) => {
 };
 
 export const updateShot = async (shot) => {
-  validateFields(shot, 'author', 'ingredients', 'date');
-  return setDoc(doc(db, 'shots', shot.id), {
+  validateFields(shot, "author", "ingredients", "date");
+  return setDoc(doc(db, "shots", shot.id), {
     author: shot.authorId,
     ingredients: shot.ingredients,
     date: new Date(shot.date),
@@ -56,6 +59,6 @@ export const updateShot = async (shot) => {
 };
 
 export const deleteShot = async (shot) => {
-  const id = typeof shot === 'string' ? shot : shot.id;
-  return deleteDoc(doc(db, 'shots', id));
+  const id = typeof shot === "string" ? shot : shot.id;
+  return deleteDoc(doc(db, "shots", id));
 };

@@ -1,9 +1,9 @@
 <script>
-  import { mdiSkipNext, mdiSkipPrevious } from '@mdi/js';
-  import { Card, Button, Icon } from 'svelte-materialify';
-  import { slide } from 'svelte/transition';
+  import { mdiSkipNext, mdiSkipPrevious } from "@mdi/js";
+  import { Card, Button, Icon } from "svelte-materialify";
+  import { slide } from "svelte/transition";
   export let template;
-  export let cards = ['first', 'second', 'third', 'fourth', 'fifth'];
+  export let cards = ["first", "second", "third", "fourth", "fifth"];
 
   let focussedCard = 0;
 </script>
@@ -66,7 +66,7 @@
 
       <Button
         icon
-        disabled={focussedCard >= cards.length}
+        disabled={focussedCard >= cards.length - 1}
         on:click={() => {
           focussedCard++;
         }}
@@ -82,7 +82,26 @@
     display: flex;
     flex-direction: row;
     div.side {
-      width: 33%;
+      width: 50%;
+      &.next {
+        -webkit-mask-image: -webkit-gradient(
+          linear,
+          left top,
+          right top,
+          from(rgba(255, 255, 255, 1)),
+          to(rgba(0, 0, 0, 0))
+        );
+      }
+      &.previous {
+        -webkit-mask-image: -webkit-gradient(
+          linear,
+          right top,
+          left top,
+          from(rgba(255, 255, 255, 1)),
+          to(rgba(0, 0, 0, 0))
+        );
+      }
+
       min-width: 70px;
       height: inherit;
       position: relative;

@@ -1,4 +1,4 @@
-import app from './firebase';
+import app from "./firebase";
 import {
   getAuth,
   connectAuthEmulator,
@@ -6,14 +6,14 @@ import {
   browserLocalPersistence,
   sendSignInLinkToEmail,
   signInWithEmailLink,
-} from 'firebase/auth';
-import { readable } from 'svelte/store';
-import { pushSnacks } from './snackbar';
-import { updateUser } from './firebase-firestore';
+} from "firebase/auth";
+import { readable } from "svelte/store";
+import { pushSnacks } from "./snackbar";
+import { updateUser } from "./firebase-firestore";
 
 const auth = getAuth(app);
-if (location.hostname === 'localhost') {
-  connectAuthEmulator(auth, 'http://localhost:9099');
+if (location.hostname === "localhost") {
+  connectAuthEmulator(auth, "http://localhost:9099");
 }
 var actionCodeSettings = {
   url: window.location.href,
@@ -21,19 +21,19 @@ var actionCodeSettings = {
 };
 // Confirm the link is a sign-in with email link.
 if (isSignInWithEmailLink(auth, window.location.href)) {
-  var email = window.localStorage.getItem('emailForSignIn');
+  var email = window.localStorage.getItem("emailForSignIn");
   if (!email) {
-    pushSnacks('You have to use the same browser as you used for the request');
+    pushSnacks("You have to use the same browser as you used for the request");
   } else {
-    console.log('not calling this');
+    console.log("not calling this");
     // The client SDK will parse the code from the link for you.
     signInWithEmailLink(auth, email, window.location.href)
       .then(() => {
-        window.localStorage.removeItem('emailForSignIn');
+        window.localStorage.removeItem("emailForSignIn");
         auth.setPersistence(browserLocalPersistence);
-        window.history.pushState('', '', '/');
+        window.history.pushState("", "", "/");
         updateUser();
-        pushSnacks('Successfully logged in!');
+        pushSnacks("Successfully logged in!");
       })
       .catch((error) => {
         pushSnacks(error.message);
@@ -42,7 +42,7 @@ if (isSignInWithEmailLink(auth, window.location.href)) {
 }
 
 export async function magicLogin(email) {
-  window.localStorage.setItem('emailForSignIn', email);
+  window.localStorage.setItem("emailForSignIn", email);
   await auth.setPersistence(browserLocalPersistence);
   return sendSignInLinkToEmail(auth, email, actionCodeSettings);
 }

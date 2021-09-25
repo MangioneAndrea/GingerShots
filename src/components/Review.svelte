@@ -5,8 +5,8 @@
     CardText,
     CardTitle,
     Textarea,
-  } from 'svelte-materialify';
-  import Stars from '../templates/Stars.svelte';
+  } from "svelte-materialify";
+  import Stars from "../templates/Stars.svelte";
   export let author;
   export let rating;
   export let date;
@@ -22,6 +22,6 @@
   </CardSubtitle>
   <CardText>
     <Stars bind:rating clickable />
-    <Textarea disabled>{description || ''}</Textarea>
+    <Textarea disabled>{description || ""}</Textarea>
   </CardText>
 </Card>
