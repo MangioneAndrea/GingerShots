@@ -5,34 +5,38 @@ import {
   query,
   collection,
   addDoc,
-  where,
-  documentId,
   deleteDoc,
 } from "firebase/firestore";
 import { auth } from "../services/firebase-auth";
 import { db, validateFields } from "../services/firebase-firestore";
 
 export const getShots = async () => {
-  const shots = await getDocs(query(collection(db, "shots")));
+  let [shots, users] = await Promise.all([
+    getDocs(query(collection(db, "shots"))),
+    getDocs(query(collection(db, "users"))),
+  ]);
   const res = shots.docs.map((d) => ({ ...d.data(), id: d.id }));
   if (res.length === 0) {
     return [];
   }
-  const users = await getDocs(
-    query(
-      collection(db, "users"),
-      where(documentId(), "in", res.map((r) => r.author).unique())
-    )
-  );
+
   const usersMap = users.docs.reduce(
     (acc, el) => ({ ...acc, [el.id]: el.data() }),
     {}
   );
-  return res.map((r) => ({
-    ...r,
-    date: r.date?.toDate(),
-    authorId: r.author,
-    author: usersMap[r.author]?.nickname || r.author,
+  return res.map((s) => ({
+    ...s,
+    date: s.date?.toDate(),
+    authorId: s.author,
+    author: usersMap[s.author]?.nickname || s.author,
+    reviews:
+      s.reviews &&
+      Object.entries(s.reviews).map(([usr, rev]) => ({
+        ...rev,
+        author: usersMap[usr]?.nickname || usr,
+        authorId: usr,
+        date: rev.date?.toDate(),
+      })),
   }));
 };
 
@@ -43,7 +47,7 @@ export const addShot = async (date, ingredients = []) => {
     ingredients,
     author: auth.currentUser.uid,
     editDate: new Date(),
-    reviews: [],
+    reviews: {},
   });
 };
 

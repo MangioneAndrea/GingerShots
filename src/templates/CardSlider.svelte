@@ -5,9 +5,8 @@
   export let template;
   export let cards = ["first", "second", "third", "fourth", "fifth"];
   export let templateFeed = {};
-
-
-  let focussedCard = 0;
+  export let index = 0;
+  
 </script>
 
 <div class="container">
@@ -20,17 +19,17 @@
     on:outroend
   >
     <div>
-      {#if cards[focussedCard - 1]}
+      {#if cards[index - 1]}
         <Card>
-          <svelte:component this={template} {...cards[focussedCard - 1]} />
+          <svelte:component this={template} {...cards[index - 1]} />
         </Card>
       {/if}
       <Button
         icon
         depressed
-        disabled={focussedCard <= 0}
+        disabled={index <= 0}
         on:click={() => {
-          focussedCard--;
+          index--;
         }}
       >
         <Icon path={mdiSkipPrevious} />
@@ -47,11 +46,7 @@
   >
     <div>
       <Card>
-        <svelte:component
-          this={template}
-          {...cards[focussedCard]}
-          {...templateFeed}
-        />
+        <svelte:component this={template} {...cards[index]} {...templateFeed} />
       </Card>
     </div>
   </div>
@@ -64,17 +59,17 @@
     on:outroend
   >
     <div>
-      {#if cards[focussedCard + 1]}
+      {#if cards[index + 1]}
         <Card>
-          <svelte:component this={template} {...cards[focussedCard + 1]} />
+          <svelte:component this={template} {...cards[index + 1]} />
         </Card>
       {/if}
 
       <Button
         icon
-        disabled={focussedCard >= cards.length - 1}
+        disabled={index >= cards.length - 1}
         on:click={() => {
-          focussedCard++;
+          index++;
         }}
       >
         <Icon path={mdiSkipNext} />

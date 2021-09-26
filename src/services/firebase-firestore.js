@@ -15,11 +15,15 @@ if (location.hostname === "localhost") {
   connectFirestoreEmulator(db, "localhost", 8080);
 }
 const user = () => doc(db, "users", auth.currentUser.uid);
+
+export let lastKnownUser = {};
+
 export const updateUser = async (data = {}) => {
   return setDoc(user(), data, { merge: true });
 };
 export const getUser = async () => {
-  return (await getDoc(user(), auth.currentUser.uid)).data();
+  lastKnownUser = (await getDoc(user(), auth.currentUser.uid)).data();
+  return lastKnownUser;
 };
 
 export const validateFields = (values, ...fields) => {

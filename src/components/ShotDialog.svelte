@@ -69,11 +69,14 @@
       <Textarea bind:value={ingredients}>Ingredients</Textarea>
     </CardText>
     <CardActions>
-      {#if isNew}
-        <Button text class="primary-text" on:click={saveAndClose}>
+      <Button text class="primary-text" on:click={saveAndClose}>
+        {#if isNew}
           Save entry
-        </Button>
-      {:else}
+        {:else}
+          Update entry
+        {/if}
+      </Button>
+      {#if !isNew}
         <Button text class="primary-text" on:click={deleteAndClose}>
           Delete entry
         </Button>

@@ -8,8 +8,10 @@
   import { Button, Icon } from "svelte-materialify";
   import { mdiPlus } from "@mdi/js";
   import { user } from "../services/firebase-auth";
+  import { getUser } from "../services/firebase-firestore";
   let shot;
   let open = false;
+  getUser();
 
   const openShotDialog = (r) => {
     shot = r;
@@ -27,7 +29,7 @@
   <Table
     data={shots}
     columns={[
-      { name: "Author", value: "author", sortable: true },
+      { name: "Author", field: "author", sortable: true },
       {
         name: "Date",
         field: "date",
@@ -42,8 +44,14 @@
         formatter: (arr) => arr.join(", "),
       },
       {
-        name: "Rating",
-        field: "rating",
+        name: "Spiciness",
+        field: "spiciness",
+        sortable: true,
+        renderer: { component: Stars },
+      },
+      {
+        name: "Flavour",
+        field: "flavour",
         sortable: true,
         renderer: { component: Stars },
       },

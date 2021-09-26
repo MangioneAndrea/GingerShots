@@ -11,12 +11,13 @@
   import { updateReview } from "../models/review";
   import { pushSnacks } from "../services/snackbar";
   export let author;
+  export let authorId;
   export let rating = 0;
   export let date;
   export let description = "";
   export let shot;
 
-  const isCurrentUser = $user.uid === author;
+  const isCurrentUser = $user.uid === authorId;
 
   const changeReview = async () => {
     try {
