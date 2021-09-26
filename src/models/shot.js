@@ -9,10 +9,8 @@ import {
   documentId,
   deleteDoc,
 } from "firebase/firestore";
+import { auth } from "../services/firebase-auth";
 import { db, validateFields } from "../services/firebase-firestore";
-import { getAuth } from "firebase/auth";
-
-const auth = getAuth(app);
 
 export const getShots = async () => {
   const shots = await getDocs(query(collection(db, "shots")));
@@ -45,17 +43,22 @@ export const addShot = async (date, ingredients = []) => {
     ingredients,
     author: auth.currentUser.uid,
     editDate: new Date(),
+    reviews: [],
   });
 };
 
 export const updateShot = async (shot) => {
   validateFields(shot, "author", "ingredients", "date");
-  return setDoc(doc(db, "shots", shot.id), {
-    author: shot.authorId,
-    ingredients: shot.ingredients,
-    date: new Date(shot.date),
-    editDate: new Date(),
-  });
+  return setDoc(
+    doc(db, "shots", shot.id),
+    {
+      author: shot.authorId,
+      ingredients: shot.ingredients,
+      date: new Date(shot.date),
+      editDate: new Date(),
+    },
+    { merge: true }
+  );
 };
 
 export const deleteShot = async (shot) => {

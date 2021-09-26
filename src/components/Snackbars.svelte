@@ -34,7 +34,7 @@
     right: 0;
     left: unset;
     top: 50px;
-    z-index: 5;
+    z-index: 6;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

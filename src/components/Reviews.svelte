@@ -1,18 +1,20 @@
 <script>
   import { Dialog } from "svelte-materialify";
   import Review from "../components/Review.svelte";
+  import { user } from "../services/firebase-auth";
   import CardSlider from "../templates/CardSlider.svelte";
   export let open;
+  export let shot;
+
+  let cards = [];
+
+  if (!cards.some((c) => c.author === $user?.uid)) {
+    cards = [{ author: $user?.uid, date: new Date() }, ...cards];
+  }
 </script>
 
 <Dialog bind:active={open} class="reviewDialog">
-  <CardSlider
-    template={Review}
-    cards={[
-      { author: "Andrea", rating: 4, date: new Date(), description: "nice" },
-      { author: "Toby", rating: 2, date: new Date() },
-    ]}
-  />
+  <CardSlider template={Review} {cards} templateFeed={{ shot }} />
 </Dialog>
 
 <style type="text/scss">

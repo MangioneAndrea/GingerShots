@@ -11,7 +11,7 @@ import { readable } from "svelte/store";
 import { pushSnacks } from "./snackbar";
 import { updateUser } from "./firebase-firestore";
 
-const auth = getAuth(app);
+export const auth = getAuth(app);
 if (location.hostname === "localhost") {
   connectAuthEmulator(auth, "http://localhost:9099");
 }

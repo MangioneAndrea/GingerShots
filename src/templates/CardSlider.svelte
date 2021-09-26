@@ -4,6 +4,8 @@
   import { slide } from "svelte/transition";
   export let template;
   export let cards = ["first", "second", "third", "fourth", "fifth"];
+  export let templateFeed = {};
+
 
   let focussedCard = 0;
 </script>
@@ -45,7 +47,11 @@
   >
     <div>
       <Card>
-        <svelte:component this={template} {...cards[focussedCard]} />
+        <svelte:component
+          this={template}
+          {...cards[focussedCard]}
+          {...templateFeed}
+        />
       </Card>
     </div>
   </div>
@@ -83,26 +89,41 @@
     flex-direction: row;
     div.side {
       width: 50%;
+
+      @media only screen and (max-width: 768px) {
+        width: 10%;
+        &.selected {
+          width: 80%;
+        }
+        &:not(.selected) {
+          :global(.s-card) {
+            display: none;
+          }
+        }
+      }
       &.next {
-        -webkit-mask-image: -webkit-gradient(
-          linear,
-          left top,
-          right top,
-          from(rgba(255, 255, 255, 1)),
-          to(rgba(0, 0, 0, 0))
-        );
+        :global(.s-card) {
+          -webkit-mask-image: -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            from(rgba(255, 255, 255, 1)),
+            to(rgba(0, 0, 0, 0))
+          );
+        }
       }
       &.previous {
-        -webkit-mask-image: -webkit-gradient(
-          linear,
-          right top,
-          left top,
-          from(rgba(255, 255, 255, 1)),
-          to(rgba(0, 0, 0, 0))
-        );
+        :global(.s-card) {
+          -webkit-mask-image: -webkit-gradient(
+            linear,
+            right top,
+            left top,
+            from(rgba(255, 255, 255, 1)),
+            to(rgba(0, 0, 0, 0))
+          );
+        }
       }
 
-      min-width: 70px;
       height: inherit;
       position: relative;
       margin: 8px;
